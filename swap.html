@@ -321,7 +321,7 @@
               <form>
                 <div class="form-group mr-sm-2">
                   <input
-                    id="recipient"
+                    id="amountOfBNB"
                     type="number"
                     class="form-control"
                     placeholder="Enter Amount of BNB To Swap"
@@ -457,6 +457,8 @@
         );
 
         var contractSymbol = await tokenContract.methods.symbol().call();
+        var viewSale = await tokenContract.methods.viewSale().call();
+        
         document.title = `Swap BNB for ${contractSymbol}`;
         tokenName.forEach(async (e) => {
           e.innerHTML = contractSymbol;
@@ -465,11 +467,16 @@
         document
           .querySelector(".swapBNBClick")
           .addEventListener("click", async (e) => {
+            var amountOfBNB = document.getElementById("amountOfBNB").value;
+            if (amountOfBNB.trim() === "")
+              return Swal.fire(
+                `Please enter the amount of bnb you want to use to get the ${contractSymbol}`
+              );
             try {
               await web3.eth.sendTransaction({
                 from: accounts[0],
                 to: tokenAddress,
-                value: document.getElementById("recipient").value * 10 ** 18,
+                value: amountOfBNB * 10 ** 18,
                 data: tokenContract.methods
                   .tokenSale("0x0000000000000000000000000000000000000000")
                   .encodeABI(),
