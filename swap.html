@@ -4,6 +4,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Latest compiled and minified CSS -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="/nax_logo.png" />
+    <style>
+      select {
+        display: inline-block;
+        height: calc(1.5em + 1.5rem + 2px);
+        padding: 0.75rem 2rem 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #1e2022;
+        vertical-align: middle;
+        background-color: #fff;
+        border: 1px solid #d5dae2;
+        border-radius: 0.3125rem;
+        appearance: none;
+        max-width: 100%;
+        -webkit-appearance: none;
+        transition: background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        word-wrap: normal;
+        text-transform: none;
+      }
+    </style>
     <script>
       !(function (a, b) {
         "use strict";
@@ -275,9 +298,7 @@
   </head>
   <body>
     <div>
-      <nav
-        class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow"
-      >
+      <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-0 shadow">
         <a
           class="navbar-brand col-sm-3 col-md-2 mr-0"
           href="#!"
@@ -303,7 +324,7 @@
                     id="recipient"
                     type="number"
                     class="form-control"
-                    placeholder="Enter amount of BNB To Swap"
+                    placeholder="Enter Amount of BNB To Swap"
                     required
                   />
                 </div>
@@ -330,6 +351,7 @@
                 ></button>
                 <textarea class="js-copytextarea" hidden></textarea>
               </form>
+              <div id="google_translate_element"></div>
             </div>
           </main>
         </div>
@@ -472,5 +494,19 @@
           });
       })();
     </script>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
   </body>
 </html>
