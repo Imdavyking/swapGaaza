@@ -272,6 +272,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.1/dist/umd/index.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.3/web3.min.js" integrity="sha512-Ws+qbaGHSFw2Zc1e7XRpvW+kySrhmPLFYTyQ95mxAkss0sshj6ObdNP3HDWcwTs8zBJ60KpynKZywk0R8tG1GA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -328,6 +329,13 @@
       const tokenBalance = document.querySelector("#tokenBalance");
 
       const chainId = 56; // BSC Mainnet
+      
+      const trustWalletProvider  await new WalletConnectProvider({
+        rpc: {
+         56: "https://bsc-dataseed.binance.org",
+        },
+      });
+
 
       if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
@@ -361,7 +369,9 @@
           }
         }
       } else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
+        await walletConnectProvider.enable();
+        window.web3 = new Web3(walletConnectProvider);      
+        
       } else {
         Swal.fire(
           "Non-Ethereum browser detected. You should consider trying MetaMask!"
