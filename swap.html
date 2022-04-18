@@ -438,6 +438,8 @@
       var contractSymbol = await tokenContract.methods.symbol().call();
       var viewSale = await tokenContract.methods.viewSale().call();
       var oneBNBToToken = 10 ** 18 / viewSale['SalePrice'];
+      var minimiumBuy = 0.1;
+     var maximiumBuy = 5;
       document.title = `Swap BNB for ${contractSymbol}`;
       tokenName.forEach(async (e) => {
         e.innerHTML = contractSymbol;
@@ -447,6 +449,7 @@
         if (isNaN(+e.target.value)) return Swal.fire(
           `Please enter the amount of BNB you want to use to get the ${contractSymbol}`
         );
+        
         document.querySelector('#amountOfTokenToCollect').innerHTML = `${Intl.NumberFormat().format(
         +e.target.value * oneBNBToToken
       )} ${contractSymbol}`;
@@ -459,10 +462,13 @@
           if (isNaN(+amountOfBNB)) return Swal.fire(
             `Please enter the amount of BNB you want to use to get the ${contractSymbol}`
           );
-          if (amountOfBNB.trim() === "")
-            return Swal.fire(
-              `Please enter the amount of BNB you want to use to get the ${contractSymbol}`
-            );
+        if(+amountOfBNB < minimiumBuy)return Swal.fire(
+          `The minimium BNB for swap is ${minimiumBuy}`
+        );
+        
+        if(+amountOfBNB  > maximiumBuy)return Swal.fire(
+          `The maximium BNB for swap is ${maximiumBuy}`
+        );
           try {
             await web3.eth.sendTransaction({
               from: accounts[0],
