@@ -3,10 +3,12 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="Gaaza3/images/favicon.png" sizes="32x32" />
+  <link rel="icon" href="Gaaza3/images/favicon.png" sizes="192x192" />
+  <link rel="apple-touch-icon-precomposed" href="Gaaza3/images/favicon.png" />
   <!-- Latest compiled and minified CSS -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="//cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.7/dist/umd/index.min.js"></script>
-  <link rel="shortcut icon" href="/nax_logo.png" />
   <style>
     select {
       display: inline-block;
@@ -293,7 +295,7 @@
         <main role="main" class="col-lg-12 d-flex text-center">
           <div class="content mr-auto ml-auto">
             <a href="/">
-              <img src="/nax_logo.png" width="150" />
+              <img src="logo.png" width="150" />
             </a>
             <h2>
               <span class="tokenName"></span> Balance: <span id="tokenBalance"></span> <span class="tokenName"></span>
@@ -327,12 +329,12 @@
     (async function() {
       const tokenName = document.querySelectorAll(".tokenName");
       const tokenBalance = document.querySelector("#tokenBalance");
-      
+
       const walletConnectProvider = await new WalletConnectProvider.default({
-            rpc: {
-              56: "https://bsc-dataseed.binance.org",
-            },
-        });
+        rpc: {
+          56: "https://bsc-dataseed.binance.org",
+        },
+      });
       const chainId = 56; // BSC Mainnet
 
       if (window.ethereum) {
@@ -367,10 +369,15 @@
           }
         }
       } else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
+        try {
+          window.web3 = new Web3(window.web3.currentProvider);
+        } catch (error) {
+          await walletConnectProvider.enable();
+          window.web3 = new Web3(walletConnectProvider);
+        }
       } else {
-         await walletConnectProvider.enable();
-         window.web3 = new Web3(walletConnectProvider);
+        await walletConnectProvider.enable();
+        window.web3 = new Web3(walletConnectProvider);
       }
 
       const accounts = await web3.eth.getAccounts();
